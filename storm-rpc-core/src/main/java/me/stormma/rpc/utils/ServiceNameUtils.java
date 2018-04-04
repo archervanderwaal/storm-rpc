@@ -1,7 +1,7 @@
 package me.stormma.rpc.utils;
 
 import com.google.common.base.Strings;
-import me.stormma.rpc.model.ServerAddress;
+import me.stormma.rpc.model.ServerInfo;
 
 /**
  * @author stormma stormmaybin@gmail.com
@@ -19,7 +19,7 @@ public class ServiceNameUtils {
         return host + ":" + port;
     }
 
-    public static String getServiceAddress(ServerAddress serverAddress) {
-        return serverAddress.getHost() + ":" + serverAddress.getPort();
+    public static String getServiceAddress(ServerInfo serverInfo) {
+        return serverInfo.getHost() + ":" + serverInfo.getPort();
     }
 }

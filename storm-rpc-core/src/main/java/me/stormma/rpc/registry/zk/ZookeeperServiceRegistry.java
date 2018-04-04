@@ -1,5 +1,6 @@
 package me.stormma.rpc.registry.zk;
 
+import me.stormma.rpc.model.ServerInfo;
 import me.stormma.rpc.registry.RegistryUtils;
 import me.stormma.rpc.registry.ServiceRegistry;
 import org.I0Itec.zkclient.ZkClient;
@@ -24,7 +25,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
     }
 
     @Override
-    public void register(String serviceName, String address) {
+    public void register(String serviceName, ServerInfo serverInfo) {
         String serviceParentPath = RegistryUtils.getServiceParentPath();
         if (!zkClient.exists(serviceParentPath)) {
             zkClient.createPersistent(serviceParentPath, true);
@@ -34,7 +35,13 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
             zkClient.createPersistent(servicePath);
         }
         String dummyServerPath = RegistryUtils.getServerPath(serviceName);
-        String trueServerPath = zkClient.createEphemeralSequential(dummyServerPath, address);
+        String serverNodeData = RegistryUtils.getServerNodeData(serverInfo);
+        String trueServerPath = zkClient.createEphemeralSequential(dummyServerPath, serverNodeData);
         // registered, /server-0000000001 -> xxx.xxx.xxx.xxx
+    }
+
+    @Override
+    public void shutdown() {
+        this.zkClient.close();
     }
 }

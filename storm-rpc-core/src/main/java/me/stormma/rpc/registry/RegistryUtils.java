@@ -1,6 +1,8 @@
 package me.stormma.rpc.registry;
 
 import com.google.common.base.Strings;
+import me.stormma.constants.Constants;
+import me.stormma.rpc.model.ServerInfo;
 
 /**
  * @author stormma stormmaybin@gmail.com
@@ -35,5 +37,10 @@ public class RegistryUtils {
         if (Strings.isNullOrEmpty(serviceName)) return null;
         // /storm-rpc/services/'serviceName'/server-'number'
         return getRemoteServicePath(serviceName) + "/" + SERVER;
+    }
+
+    public static String getServerNodeData(ServerInfo serverInfo) {
+        return serverInfo.getHost() + ":" + serverInfo.getPort()
+                + Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_SEPARATOR + serverInfo.getWeight();
     }
 }

@@ -1,6 +1,8 @@
 package me.stormma.rpc.registry.zk;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import me.stormma.constants.Constants;
 import me.stormma.exception.NotFoundAvailableServerInRegistry;
 import me.stormma.exception.NotFoundServiceInRegistryException;
 import me.stormma.rpc.registry.LoadBalance;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -41,15 +44,24 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
             throw new NotFoundServiceInRegistryException(String
                     .format("not found service <%s> in zookeeper registry <%s>", serviceName, zkServer));
         }
-        List<String> servers = zkClient.getChildren(servicePath);
-        if (Objects.isNull(servers) || servers.isEmpty()) {
+        List<String> serverNames = zkClient.getChildren(servicePath);
+        if (Objects.isNull(serverNames) || serverNames.isEmpty()) {
             throw new NotFoundAvailableServerInRegistry(String
                     .format("not found available server for service <%s> in zookeeper registry <%s>"
                             , serviceName, zkServer));
         }
-        // serverName as server-0000000001, server-000000002 it's data is server address
-        String serverName = LoadBalance.randomWeightPolicyLoadBalance(servers);
-        String serverAddress = zkClient.readData(servicePath + "/" + serverName);
+        /** serverName as server-0000000001, server-000000002 it's data is server addree + '$' + weight
+         * such as:
+         * server-00000001 -> 107.182.180.189:52057$3, 107.182.180.189 this server weight is 3.
+         */
+        Map<String, Integer> serverWeights = Maps.newHashMap();
+        for (String serverName : serverNames) {
+            String data = zkClient.readData(servicePath + "/" + serverName);
+            String serverAddress = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_SEPARATOR)[0];
+            String weight = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_SEPARATOR)[1];
+            serverWeights.put(serverAddress, Integer.parseInt(weight));
+        }
+        String serverAddress = LoadBalance.randomWeightPolicyLoadBalance(serverWeights);
         LOGGER.info(String.format("discover service <%s> in registry, use server <%s> to handle service"
                                             , serviceName, serverAddress));
         zkClient.close();

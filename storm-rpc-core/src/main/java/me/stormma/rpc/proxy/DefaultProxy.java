@@ -14,6 +14,7 @@ import me.stormma.rpc.utils.ServiceNameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class DefaultProxy implements Proxy {
     @Override
     public <T> T createProxy(Class<?> interfaceClass, String version) {
         Object obj = java.lang.reflect.Proxy.newProxyInstance(interfaceClass.getClassLoader()
-                , new Class<?>[]{interfaceClass}, (proxy, method, args) -> {
+                , new Class<?>[]{interfaceClass}, (Object proxy, Method method, Object[] args) -> {
                     RequestBuilder builder = new RequestBuilder();
                     builder.requestId(UUID.randomUUID().toString())
                             .interfaceName(interfaceClass.getName())

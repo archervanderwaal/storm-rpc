@@ -1,7 +1,8 @@
 package me.stormma.rpc.netty.bootstrap;
 
+import com.google.common.collect.Maps;
 import me.stormma.annoation.Provider;
-import me.stormma.rpc.model.ServerAddress;
+import me.stormma.rpc.model.ServerInfo;
 import me.stormma.rpc.registry.ServiceRegistry;
 import me.stormma.rpc.utils.ServiceNameUtils;
 import org.reflections.Reflections;
@@ -19,25 +20,26 @@ public class RpcServer implements Server {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
 
-    private ConcurrentHashMap<String, Object> providerBeans = new ConcurrentHashMap<>();
+    private Map<String, Object> providerBeans = Maps.newConcurrentMap();
 
     private final ServiceRegistry serviceRegistry;
 
-    private final ServerAddress serverAddress;
+    private final ServerInfo serverInfo;
 
-    public RpcServer(ServiceRegistry serviceRegistry, ServerAddress address) {
+    public RpcServer(ServiceRegistry serviceRegistry, ServerInfo serverInfo) {
         this.serviceRegistry = serviceRegistry;
-        this.serverAddress = address;
+        this.serverInfo = serverInfo;
     }
 
     @Override
     public void start(String basePackage) {
         registerProviderBean2Map(basePackage);
+        registerProviderService2Registry();
     }
 
     @Override
     public void close() {
-
+        serviceRegistry.shutdown();
     }
 
     private void registerProviderBean2Map(String basePackage) {
@@ -59,9 +61,9 @@ public class RpcServer implements Server {
     }
 
     private void registerProviderService2Registry() {
-        String serviceAddress = ServiceNameUtils.getServiceAddress(this.serverAddress);
+        String serviceAddress = ServiceNameUtils.getServiceAddress(this.serverInfo);
         for (String serviceName : providerBeans.keySet()) {
-            serviceRegistry.register(serviceName, serviceAddress);
+            serviceRegistry.register(serviceName, serverInfo);
         }
     }
 }
