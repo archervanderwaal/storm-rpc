@@ -1,7 +1,7 @@
 package me.stormma.rpc.netty.bootstrap;
 
 import me.stormma.annoation.Provider;
-import me.stormma.rpc.model.ServiceAddress;
+import me.stormma.rpc.model.ServerAddress;
 import me.stormma.rpc.registry.ServiceRegistry;
 import me.stormma.rpc.utils.ServiceNameUtils;
 import org.reflections.Reflections;
@@ -19,15 +19,15 @@ public class RpcServer implements Server {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
 
-    private Map<String, Object> providerBeans = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Object> providerBeans = new ConcurrentHashMap<>();
 
     private final ServiceRegistry serviceRegistry;
 
-    private final ServiceAddress address;
+    private final ServerAddress serverAddress;
 
-    public RpcServer(ServiceRegistry serviceRegistry, ServiceAddress address) {
+    public RpcServer(ServiceRegistry serviceRegistry, ServerAddress address) {
         this.serviceRegistry = serviceRegistry;
-        this.address = address;
+        this.serverAddress = address;
     }
 
     @Override
@@ -59,6 +59,9 @@ public class RpcServer implements Server {
     }
 
     private void registerProviderService2Registry() {
-        String address = ServiceNameUtils.getServiceAddress();
+        String serviceAddress = ServiceNameUtils.getServiceAddress(this.serverAddress);
+        for (String serviceName : providerBeans.keySet()) {
+            serviceRegistry.register(serviceName, serviceAddress);
+        }
     }
 }

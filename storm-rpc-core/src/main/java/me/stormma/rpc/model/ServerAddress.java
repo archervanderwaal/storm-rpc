@@ -3,13 +3,13 @@ package me.stormma.rpc.model;
 /**
  * @author stormma stormmaybin@gmail.com
  */
-public class ServiceAddress {
+public class ServerAddress {
 
     private String host;
 
     private int port;
 
-    public ServiceAddress(String host, int port) {
+    public ServerAddress(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -28,13 +28,5 @@ public class ServiceAddress {
 
     public void setPort(int port) {
         this.port = port;
-    }
-
-    @Override
-    public String toString() {
-        return "ServiceAddress{" +
-                "host='" + host + '\'' +
-                ", port=" + port +
-                '}';
     }
 }
