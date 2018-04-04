@@ -5,7 +5,7 @@ package me.stormma.rpc.netty.bootstrap;
  */
 public interface Server {
 
-    void start(String basePackage);
+    void start(String basePackage) throws InterruptedException;
 
     void close();
 }
