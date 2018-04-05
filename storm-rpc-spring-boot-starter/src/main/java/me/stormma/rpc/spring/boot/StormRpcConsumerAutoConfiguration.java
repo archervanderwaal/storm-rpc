@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,8 +26,7 @@ import java.lang.reflect.Field;
  */
 @Configuration
 @ConditionalOnClass(Reference.class)
-@ConditionalOnBean(EnableStormRpcConfiguration.class)
-@AutoConfigureAfter(StormRpcAutoConfiguration.class)
+//@ConditionalOnBean(EnableStormRpcConfiguration.class)
 @EnableConfigurationProperties(StormRpcProperties.class)
 public class StormRpcConsumerAutoConfiguration {
     @Autowired
@@ -42,19 +40,14 @@ public class StormRpcConsumerAutoConfiguration {
         return new BeanPostProcessor() {
             @Override
             public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-                Class<?> clazz;
-                if (AopUtils.isAopProxy(bean)) {
-                    clazz = AopUtils.getTargetClass(bean);
-                } else {
-                    clazz = bean.getClass();
-                }
-                for (Field field : clazz.getFields()) {
-                    Reference reference = clazz.getAnnotation(Reference.class);
+                Class<?> clazz = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
+                for (Field field : clazz.getDeclaredFields()) {
+                    Reference reference = field.getAnnotation(Reference.class);
                     if (reference != null) {
                         Class<?> interfaceClass = reference.interfaceClass();
                         String version = reference.version();
                         ServiceDiscover serviceDiscover = new ZookeeperServiceDiscover(stormRpcProperties
-                                    .getDiscover());
+                                .getDiscover());
                         Proxy proxy = stormRpcProperties.getProxy().equals(StormRpcProperties.Proxy.JDK)
                                 ? new DefaultProxy(serviceDiscover) : new CglibProxy(serviceDiscover);
                         Object proxyBean = proxy.createProxy(interfaceClass, version);

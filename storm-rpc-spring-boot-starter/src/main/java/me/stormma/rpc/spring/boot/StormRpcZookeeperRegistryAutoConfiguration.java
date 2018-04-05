@@ -3,6 +3,7 @@ package me.stormma.rpc.spring.boot;
 import me.stormma.rpc.registry.ServiceRegistry;
 import me.stormma.rpc.registry.zk.ZookeeperServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(StormRpcProperties.class)
+@ConditionalOnProperty(prefix = "spring.storm.rpc", name = "server", havingValue = "true")
 public class StormRpcZookeeperRegistryAutoConfiguration {
     @Autowired
     private StormRpcProperties stormRpcProperties;
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.storm.rpc", name = "server", havingValue = "true")
+    @ConditionalOnMissingBean
     public ServiceRegistry serviceRegistry() {
         return new ZookeeperServiceRegistry(stormRpcProperties.getRegistry());
     }

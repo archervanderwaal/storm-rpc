@@ -1,0 +1,61 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc",
+      "type": "me.stormma.rpc.spring.boot.StormRpcProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "defaultValue": "",
+      "name": "spring.storm.rpc.base-package",
+      "description": "spring.storm.rpc.basePackage",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.discover",
+      "description": "spring.storm.rpc.discover",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.host",
+      "description": "spring.storm.rpc.host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.name",
+      "description": "spring.storm.rpc.name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.port",
+      "description": "spring.storm.rpc.port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.proxy",
+      "description": "spring.storm.rpc.proxy",
+      "type": "me.stormma.rpc.spring.boot.StormRpcProperties$Proxy"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.registry",
+      "description": "spring.storm.rpc.registry",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.stormma.rpc.spring.boot.StormRpcProperties",
+      "name": "spring.storm.rpc.weight",
+      "description": "spring.storm.rpc.weight",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
