@@ -23,9 +23,7 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZookeeperServiceDiscover.class);
 
-    private final ZkClient zkClient;
-
-    private final String zkServer;
+    private String zkServer;
 
     private static final int ZK_SESSION_TIMEOUT = 5000;
 
@@ -33,12 +31,11 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
 
     public ZookeeperServiceDiscover(String zkServer) {
         this.zkServer = zkServer;
-        this.zkClient = new ZkClient(zkServer, ZK_SESSION_TIMEOUT, ZK_CONNECTION_TIMEOUT);
-        LOGGER.debug("zk <{}> connected", zkServer);
     }
 
     @Override
     public String discover(String serviceName) throws Exception {
+        ZkClient zkClient = new ZkClient(zkServer, ZK_SESSION_TIMEOUT, ZK_CONNECTION_TIMEOUT);
         String servicePath = RegistryUtils.getRemoteServicePath(serviceName);
         if (Strings.isNullOrEmpty(servicePath) || !zkClient.exists(servicePath)) {
             throw new NotFoundServiceInRegistryException(String
@@ -57,8 +54,8 @@ public class ZookeeperServiceDiscover implements ServiceDiscover {
         Map<String, Integer> serverWeights = Maps.newHashMap();
         for (String serverName : serverNames) {
             String data = zkClient.readData(servicePath + "/" + serverName);
-            String serverAddress = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_SEPARATOR)[0];
-            String weight = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_SEPARATOR)[1];
+            String serverAddress = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_CUTTING_CHARACTER)[0];
+            String weight = data.split(Constants.DEFAULT_SERVER_ADDRESS_WITH_WEIGHT_CUTTING_CHARACTER)[1];
             serverWeights.put(serverAddress, Integer.parseInt(weight));
         }
         String serverAddress = LoadBalance.randomWeightPolicyLoadBalance(serverWeights);

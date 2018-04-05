@@ -1,6 +1,7 @@
 package me.stormma.rpc.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author stormma stormmaybin@gmail.com
@@ -75,5 +76,18 @@ public class Request implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestId='" + requestId + '\'' +
+                ", interfaceName='" + interfaceName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", paramTypes=" + Arrays.toString(paramTypes) +
+                ", paramValves=" + Arrays.toString(paramValves) +
+                ", version='" + version + '\'' +
+                ", startTime=" + startTime +
+                '}';
     }
 }

@@ -38,6 +38,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
         String serverNodeData = RegistryUtils.getServerNodeData(serverInfo);
         String trueServerPath = zkClient.createEphemeralSequential(dummyServerPath, serverNodeData);
         // registered, /server-0000000001 -> xxx.xxx.xxx.xxx
+        String data = zkClient.readData(trueServerPath);
     }
 
     @Override

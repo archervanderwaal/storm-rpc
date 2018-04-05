@@ -46,7 +46,6 @@ public class DefaultProxy implements Proxy {
                         builder.version(version);
                     }
                     Request request = builder.build();
-
                     if (!Objects.isNull(serviceDiscover)) {
                         String serviceName = ServiceNameUtils.getServiceName(interfaceClass, version);
                         String serverAddress = serviceDiscover.discover(serviceName);
@@ -56,7 +55,6 @@ public class DefaultProxy implements Proxy {
                         }
                         String host = serverAddress.split(":")[0];
                         int port = Integer.parseInt(serverAddress.split(":")[1]);
-
 
                         Client rpcClient = new RpcClient(host, port);
                         Response response = rpcClient.sendRequest(request);

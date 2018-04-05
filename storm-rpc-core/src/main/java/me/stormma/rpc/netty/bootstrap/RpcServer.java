@@ -48,7 +48,7 @@ public class RpcServer implements Server {
     @Override
     public void start(String basePackage) throws InterruptedException {
         registerProviderBean2Map(basePackage);
-        registerProviderService2Registry();
+
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
@@ -64,6 +64,7 @@ public class RpcServer implements Server {
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
         ChannelFuture future = bootstrap.bind(serverInfo.getHost(), serverInfo.getPort()).sync();
+        registerProviderService2Registry();
         LOGGER.debug("start server on port <{}>", serverInfo.getPort());
         future.channel().closeFuture().sync();
         close();

@@ -42,7 +42,6 @@ public class RpcClient extends SimpleChannelInboundHandler<Response> implements 
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
@@ -51,7 +50,8 @@ public class RpcClient extends SimpleChannelInboundHandler<Response> implements 
                                 .addLast(new Decoder())
                                 .addLast(RpcClient.this);
                     }
-                });
+                })
+                .option(ChannelOption.TCP_NODELAY, true);
         try {
             ChannelFuture future = bootstrap.connect(host, port).sync();
             Channel channel = future.channel();
@@ -83,5 +83,15 @@ public class RpcClient extends SimpleChannelInboundHandler<Response> implements 
                     .build();
         }
         ctx.close();
+    }
+
+    @Override
+    public String toString() {
+        return "RpcClient{" +
+                "response=" + response +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", request=" + request +
+                '}';
     }
 }

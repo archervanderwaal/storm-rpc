@@ -56,4 +56,15 @@ public class Response implements Serializable {
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "requestId='" + requestId + '\'' +
+                ", result=" + result +
+                ", errorCode=" + errorCode +
+                ", requestTime=" + requestTime +
+                ", errorMsg='" + errorMsg + '\'' +
+                '}';
+    }
 }

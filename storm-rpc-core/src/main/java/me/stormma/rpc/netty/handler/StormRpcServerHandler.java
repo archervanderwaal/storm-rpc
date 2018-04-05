@@ -1,5 +1,6 @@
 package me.stormma.rpc.netty.handler;
 
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -55,7 +56,7 @@ public class StormRpcServerHandler extends SimpleChannelInboundHandler<Request> 
                     .requestTime(System.currentTimeMillis() - startTime)
                     .errorCode(0)
                     .build();
-            ctx.pipeline().writeAndFlush(response);
+            ctx.pipeline().writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
         } catch (Exception e) {
             ResponseBuilder builder = new ResponseBuilder();
             Response response = builder
@@ -66,7 +67,7 @@ public class StormRpcServerHandler extends SimpleChannelInboundHandler<Request> 
                     .errorMsg(e.getMessage())
                     .build();
             LOGGER.error("handle remote request {} failed! {}", request, e);
-            ctx.pipeline().writeAndFlush(response);
+            ctx.pipeline().writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
         }
     }
 
