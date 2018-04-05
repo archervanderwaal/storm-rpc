@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -25,8 +24,7 @@ import java.lang.reflect.Field;
  * @author stormma stormmaybin@gmail.com
  */
 @Configuration
-@ConditionalOnClass(Reference.class)
-//@ConditionalOnBean(EnableStormRpcConfiguration.class)
+@ConditionalOnClass({Reference.class, EnableStormRpcConfiguration.class})
 @EnableConfigurationProperties(StormRpcProperties.class)
 public class StormRpcConsumerAutoConfiguration {
     @Autowired
@@ -59,11 +57,6 @@ public class StormRpcConsumerAutoConfiguration {
                         }
                     }
                 }
-                return bean;
-            }
-
-            @Override
-            public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
                 return bean;
             }
         };
