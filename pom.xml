@@ -12,5 +12,6 @@
     <modules>
         <module>storm-rpc-core</module>
         <module>storm-rpc-test</module>
+        <module>storm-rpc-spring-boot-starter</module>
     </modules>
 </project>

@@ -14,6 +14,9 @@ public class Constants {
     /**default registry*/
     public static final String DEFAULT_REGISTRY = "127.0.0.1:2181";
 
+    /**default discover*/
+    public static final String DEFAULT_DISCOVER = "127.0.0.1:2181";
+
     /**default server weight*/
     public static final Integer SERVER_DEFAULT_WEIGHT = 1;
 
