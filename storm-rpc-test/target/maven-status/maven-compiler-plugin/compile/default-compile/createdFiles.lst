@@ -1,0 +1,5 @@
+me/stormma/provider/HelloService.class
+me/stormma/consumer/Consumer.class
+me/stormma/api/IHelloService.class
+me/stormma/provider/ServerBootstrap.class
+me/stormma/consumer/ConsumerClient.class
