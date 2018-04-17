@@ -77,6 +77,10 @@ public class RpcServer implements Server {
         workGroup.shutdownGracefully();
     }
 
+    /**
+     * register provider bean to map
+     * @param basePackage
+     */
     private void registerProviderBean2Map(String basePackage) {
         Reflections reflections = new Reflections(basePackage);
         Set<Class<?>> providerClass = reflections.getTypesAnnotatedWith(Provider.class);
@@ -95,6 +99,9 @@ public class RpcServer implements Server {
         }
     }
 
+    /**
+     * register provider service to registry
+     */
     private void registerProviderService2Registry() {
         String serviceAddress = ServiceNameUtils.getServiceAddress(this.serverInfo);
         for (String serviceName : providerBeans.keySet()) {

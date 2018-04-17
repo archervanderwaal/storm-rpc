@@ -15,8 +15,6 @@ public class HelloServiceTest {
     @Reference(interfaceClass = IHelloService.class, version = "2.0.0")
     private IHelloService helloService;
 
-    public int a = 0;
-
     @GetMapping("/say/hello/{name}")
     public String test(@PathVariable String name) {
         return helloService.sayHello(name);

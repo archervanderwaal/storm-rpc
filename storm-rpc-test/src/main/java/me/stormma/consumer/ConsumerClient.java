@@ -10,6 +10,7 @@ import me.stormma.rpc.registry.zk.ZookeeperServiceDiscover;
  */
 public class ConsumerClient {
     public static void main(String[] args) {
+        // zookeeper discover address
         String zkServer = "139.199.27.243:2181";
         ServiceDiscover serviceDiscover = new ZookeeperServiceDiscover(zkServer);
         DefaultProxy proxy = new DefaultProxy(serviceDiscover);
