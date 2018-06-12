@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,6 +36,7 @@ public class StormRpcServerHandler extends SimpleChannelInboundHandler<Request> 
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Request request) throws Exception {
+        // parse request
         String methodName = request.getMethodName();
         Object[] paramValues = request.getParamValves();
         Class<?>[] paramTypes = request.getParamTypes();
@@ -42,8 +44,17 @@ public class StormRpcServerHandler extends SimpleChannelInboundHandler<Request> 
         String interfaceClass = request.getInterfaceName();
         String version = request.getVersion();
         long startTime = request.getStartTime();
-
+        // get implementation of interface
         Object providerBean = providersBean.get(ServiceNameUtils.getServiceName(Class.forName(interfaceClass), version));
+        if (Objects.isNull(providerBean)) {
+            ResponseBuilder builder = new ResponseBuilder();
+            Response response = builder.errorCode(1)
+                    .requestId(requestId)
+                    .requestTime(System.currentTimeMillis() - startTime)
+                    .errorMsg("cannot found implementation of interface < " + interfaceClass + ">")
+                    .build();
+            ctx.pipeline().writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+        }
         Method method = providerBean.getClass().getMethod(methodName, paramTypes);
         method.setAccessible(true);
         try {

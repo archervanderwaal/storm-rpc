@@ -37,7 +37,9 @@ public class RpcServer implements Server {
 
     private final ServerInfo serverInfo;
 
+    // handle socket accept
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
+    // handle read and write event
     private EventLoopGroup workGroup = new NioEventLoopGroup();
 
     public RpcServer(ServiceRegistry serviceRegistry, ServerInfo serverInfo) {
