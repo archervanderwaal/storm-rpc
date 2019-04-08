@@ -1,6 +1,0 @@
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/StormRpcProperties.java
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/StormRpcZookeeperRegistryAutoConfiguration.java
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/StormRpcServerAutoConfiguration.java
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/StormRpcConsumerAutoConfiguration.java
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/annotation/EnableStormRpcConfiguration.java
-/Users/stormma/coding/java-project/lib/storm-rpc/storm-rpc-spring-boot-starter/src/main/java/me/stormma/rpc/spring/boot/annotation/Reference.java

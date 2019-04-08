@@ -19,7 +19,7 @@ ynDocuments/
 
 # IntelliJ
 /out/
-/target
+target/
 *.class
 # mpeltonen/sbt-idea plugin
 .idea_modules/

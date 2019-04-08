@@ -15,7 +15,7 @@ public class ConsumerClient {
         ServiceDiscover serviceDiscover = new ZookeeperServiceDiscover(zkServer);
         DefaultProxy proxy = new DefaultProxy(serviceDiscover);
         IHelloService helloService = proxy.createProxy(IHelloService.class, "1.0.0");
-        System.out.println(helloService.sayHello("stormma"));
+        System.out.println(helloService.sayHello("archer"));
         System.exit(0);
     }
 }

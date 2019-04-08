@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-me.stormma.rpc.spring.boot.StormRpcZookeeperRegistryAutoConfiguration,\
-me.stormma.rpc.spring.boot.StormRpcServerAutoConfiguration,\
-me.stormma.rpc.spring.boot.StormRpcConsumerAutoConfiguration
